@@ -1,10 +1,6 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import axios from 'axios';
-
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+import axios from 'axios'
+export default {
+  namespaced: true,
   state: {
     tickets:[],
     user: null,
@@ -38,14 +34,14 @@ export default new Vuex.Store({
   },
   actions: {
     loadTickets({commit, getters}){
+      
       axios.get(`${getters.url}/api/tickets`)
       .then(response => {
-        console.log(response)
         commit('setLoadedTickets', response.data.data)
       })
       .catch(err => {
-
-      })
+        console.log(err)
+      })  
     },
     createTicket({commit, getters}, payload){
       axios.post(`${gettets.url}/api/tickets`, payload)
@@ -74,4 +70,4 @@ export default new Vuex.Store({
       return state.url
     }
   }
-})
+}

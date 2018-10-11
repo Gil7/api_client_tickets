@@ -14,7 +14,7 @@
       </v-card-title>
       <v-data-table
         :headers="headers"
-        :items="desserts"
+        :items="tickets"
         :search="search"
       >
         <template slot="items" slot-scope="props">
@@ -45,8 +45,25 @@
           Your search for "{{ search }}" found no results.
         </v-alert>
       </v-data-table>
-    </v-card>
+      <v-dialog
+        v-model="dialog"
+        width="500"
+      >
 
+        <v-btn
+          fab
+          dark
+          bottom
+          right
+          fixed
+          slot="activator"
+          color="blue"
+        >
+          <v-icon>add</v-icon>
+        </v-btn>
+        <newticket @cancel="closeModal"></newticket>
+      </v-dialog>
+    </v-card>
   </v-container>
 </template>
 
@@ -54,9 +71,14 @@
 
 </style>
 <script>
+import ModalTicket from '../components/ticket/ModaTicket.vue'
 export default {
+  components: {
+    newticket:ModalTicket
+  },
   data(){
     return {
+      dialog: false,
       search: '',
       loading: true,
       headers: [
@@ -72,13 +94,11 @@ export default {
           { text: 'Assigned to', value: 'assigned' },
           {text: 'Actions', value: 'name', sortable: false}
         ],
-        desserts: []
+        
       }
   },
   created(){
-    this.$store.dispatch('loadTickets')
-    this.desserts = this.tickets
-    
+    this.$store.dispatch('ticket/loadTickets')
   },
   methods: {
     editTicket(ticket){
@@ -86,11 +106,14 @@ export default {
     },
     removeTicket(ticket){
       console.log(ticket)
+    },
+    closeModal(value){
+      this.dialog = value
     }
   },
   computed: {
     tickets(){
-      return this.$store.getters.loadedTickets
+      return this.$store.getters['ticket/loadedTickets']
     }
   }
 }

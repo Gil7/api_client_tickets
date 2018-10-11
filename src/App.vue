@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app >
     <v-navigation-drawer
       persistent
       :mini-variant="miniVariant"
@@ -12,6 +12,8 @@
       <v-list>
         <v-list-tile
           value="true"
+          router
+          :to="item.action"
           v-for="(item, i) in items"
           :key="i"
         >
@@ -30,7 +32,7 @@
     </v-content>
  
     <v-footer :fixed="fixed" app>
-      <span>&copy; 2017</span>
+      <span>&copy; Tickets - VUE</span>
     </v-footer>
   </v-app>
 </template>
@@ -47,26 +49,30 @@ export default {
       items: [
         {
           icon: 'toc',
-          title: 'Tickets'
+          title: 'Tickets',
+          action:'/'
         },
         {
           icon: 'turned_in',
-          title: 'Statuses'
+          title: 'Statuses',
+          action: '/status'
         },
         {
           icon: 'group',
-          title: 'Users'
+          title: 'Users',
+          action: '/users'
         },
         {
           icon: 'account_circle',
-          title: 'Roles'
+          title: 'Roles',
+          action:'/roles'
         },
         
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'Tickets'
     }
   }
 }
