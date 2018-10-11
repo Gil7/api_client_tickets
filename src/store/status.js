@@ -1,3 +1,4 @@
+import axios from 'axios'
 export default {
     namespaced: true,
     state: {
@@ -14,9 +15,9 @@ export default {
     },
     actions: {
         loadStatuses({commit, getters}){
-            axios.get('/api/statuses')
+            axios.get(`${getters.url}/api/statuses`)
             .then(response => {
-                commit('setLoadedStatues', response.data.data)
+                commit('setLoadedStatuses', response.data.data)
             })
             .catch(err => {
                 console.log(err)
@@ -24,6 +25,11 @@ export default {
         }
     },
     getters:{
-
+        statuses(state){
+            return state.statuses
+        },
+        url(state){
+            return state.url
+        }
     }
 }

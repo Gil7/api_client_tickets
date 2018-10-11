@@ -61,7 +61,9 @@
         >
           <v-icon>add</v-icon>
         </v-btn>
-        <newticket @cancel="closeModal"></newticket>
+        <newticket 
+          :statuses="statuses"
+        @cancel="closeModal"></newticket>
       </v-dialog>
     </v-card>
   </v-container>
@@ -99,6 +101,7 @@ export default {
   },
   created(){
     this.$store.dispatch('ticket/loadTickets')
+    this.$store.dispatch('status/loadStatuses')
   },
   methods: {
     editTicket(ticket){
@@ -114,6 +117,9 @@ export default {
   computed: {
     tickets(){
       return this.$store.getters['ticket/loadedTickets']
+    },
+    statuses(){
+      return this.$store.getters['status/statuses']
     }
   }
 }
