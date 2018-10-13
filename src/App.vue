@@ -28,6 +28,15 @@
     </v-navigation-drawer>
     
     <v-content>
+      <v-alert
+        class="alert-message"
+        transition="scale-transition"
+        v-model="alert"
+        :type="typeAlert"
+      >
+        {{messageAlert}}
+                
+      </v-alert>
       <router-view/>
     </v-content>
  
@@ -37,6 +46,11 @@
   </v-app>
 </template>
 
+<style scoped>
+  .alert-message{
+    margin: 10px;
+  }
+</style>
 <script>
 
 export default {
@@ -74,6 +88,17 @@ export default {
       rightDrawer: false,
       title: 'Tickets'
     }
+  },
+  computed:{
+    alert() {
+      return this.$store.getters['message/getAlert']
+    },
+    typeAlert(){
+      return this.$store.getters['message/getTypeAlert']
+    },
+    messageAlert(){
+      return this.$store.getters['message/getMessage']
+    } 
   }
 }
 </script>

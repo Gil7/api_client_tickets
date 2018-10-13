@@ -6,12 +6,16 @@ import router from './router'
 import Vuex from 'vuex'
 import status from './store/status'
 import ticket from './store/ticket'
+import roles from './store/role'
+import message from './store/message'
 
 Vue.use(Vuex)
 export const store = new Vuex.Store({
   modules: {
     status,
-    ticket
+    ticket,
+    roles,
+    message
   }
 })
 
