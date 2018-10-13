@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Status from './components/status/Status.vue'
+import Roles from './components/role/Roles.vue'
 
 Vue.use(Router)
 
@@ -26,6 +27,11 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
+    {
+      path:'/roles',
+      component: Roles,
+
+    }
     
   ]
 })
