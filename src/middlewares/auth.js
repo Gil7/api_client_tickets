@@ -1,6 +1,7 @@
-import { user } from '../store/user'
+import  { store }  from '../store/main'
 export default (to, from, next) => {
-    if(user.getters.user){
+    if (store.getters['user/getUserAuthenticated']){
+        console.log("NEXT FRIM AUTH")
         next()
     }
     else {
