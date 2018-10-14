@@ -16,7 +16,7 @@ export default {
             state.roles[index] = payload
         },
         removeRole(state, payload){
-            state.roles.filter((role) => role._id != payload)
+            state.roles = state.roles.filter((role) => role._id != payload)
             console.log("Role removed ",state.roles)
         }
     },
@@ -34,7 +34,6 @@ export default {
         storeRole({dispatch, commit, getters, rootGetters}, payload){
             axios.post(`${GENERAL.API_URL}/roles`, payload)
             .then(response => {
-                console.log(response)
                 commit('addRole', response.data.data)
                 dispatch('message/modifyAlert', true, {root: true})
                 dispatch('message/modfyTypeAlert', 'success', {root: true})
@@ -54,13 +53,18 @@ export default {
                 console.log(err)
             })
         },
-        removeRole({commit}, payload){
+        removeRole({dispatch,commit, getters, rootGetters}, payload){
             axios.delete(`${GENERAL.API_URL}/roles/${payload}`)
             .then(response => {
                 commit('removeRole', payload)
+                dispatch('message/modifyAlert', true, { root: true })
+                dispatch('message/modfyTypeAlert', 'success', { root: true })
+                dispatch('message/modifyMessageAlert', response.data.message, { root: true })
             })
             .catch(err => {
-                console.log(err)
+                dispatch('message/modifyAlert', true, { root: true })
+                dispatch('message/modfyTypeAlert', 'error', { root: true })
+                dispatch('message/modifyMessageAlert', 'Error removing the role', { root: true })
             })
         }
     },

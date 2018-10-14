@@ -21,7 +21,7 @@
         :search="search"
       >
         <template slot="items" slot-scope="props">
-            <td class="text-xs-right">{{ props.item.name }}</td>
+            <td class="text-xs-left">{{ props.item.name }}</td>
             <td class="justify-center layout px-0">
                 <v-icon
                     small
@@ -44,10 +44,47 @@
         </v-alert>
       </v-data-table>
       <v-dialog
+        v-model="remove"    
+        width="300px"
+        >
+          <v-card
+            >
+              <v-card-title
+                class="headline blue white--text"
+              >
+                  Remove role
+              </v-card-title>
+            <v-card-text>
+                <p v-if="roleToDelete">
+                    Do you really want to delete this role:
+                    {{roleToDelete.name}}
+                </p>
+                
+            </v-card-text>
+            <v-card-actions>
+                <v-btn
+                    @click="cancelRemove"
+                    class="error">
+                    <v-icon
+                        >
+                        close
+                    </v-icon>
+                </v-btn>
+                <v-btn
+                    class="success"
+                    @click="onRemoveRole"
+                    >
+                    <v-icon>
+                        check
+                    </v-icon>
+                </v-btn>
+            </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-dialog
         v-model="dialog"
         width="500"
       >
-
         <v-btn
           fab
           dark
@@ -83,12 +120,13 @@ export default {
                 }
             ],
             search:'',
-            dialog: false
+            dialog: false,
+            remove: false,
+            roleToDelete: null
         }
     },
     created(){
         this.$store.dispatch('roles/loadRoles')
-        
     },
     methods: {
         closeModal(closeModal){
@@ -98,8 +136,17 @@ export default {
             
         },
         removeRole(role){
-            this.$store.dispatch('roles/removeRole', role._id)
-            this.dialog = false
+            this.roleToDelete = role
+            this.remove = true
+        },
+        cancelRemove(){
+            this.remove = false
+            this.roleToDelete
+        },
+        onRemoveRole(){
+            this.$store.dispatch('roles/removeRole', this.roleToDelete._id)
+            this.remove = false
+            this.roleToDelete = null
         }
     },
     computed:{

@@ -57,6 +57,7 @@ export default {
         addRole(){
             this.$store.dispatch('roles/storeRole', { name: this.name})
             this.$emit('cancel', false)
+            this.name = ''
         }
     },
     

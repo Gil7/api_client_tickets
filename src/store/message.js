@@ -1,9 +1,9 @@
 export default {
     namespaced:true,
     state:{
-        type:'success',
-        alert: true,
-        message: 'asdasd'
+        type:'',
+        alert: false,
+        message: ''
     },
     mutations:{
         setAlert(state, payload){

@@ -35,6 +35,12 @@
         :type="typeAlert"
       >
         {{messageAlert}}
+        <v-icon 
+          class="right-position"
+          @click="closeAlertMessage"
+        >
+          close
+        </v-icon>
                 
       </v-alert>
       <router-view/>
@@ -49,6 +55,9 @@
 <style scoped>
   .alert-message{
     margin: 10px;
+  }
+  .right-position{
+    float:right;
   }
 </style>
 <script>
@@ -89,6 +98,13 @@ export default {
       title: 'Tickets'
     }
   },
+  methods: {
+    closeAlertMessage(){
+      this.$store.dispatch('message/modifyAlert', false, {root: true})
+      this.$store.dispatch('message/modfyTypeAlert', '', {root: true})
+      this.$store.dispatch('message/modifyMessageAlert', '', {root: true})
+    }
+  },  
   computed:{
     alert() {
       return this.$store.getters['message/getAlert']
