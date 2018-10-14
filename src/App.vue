@@ -1,6 +1,7 @@
 <template>
   <v-app >
     <v-navigation-drawer
+      v-if="user"
       persistent
       :mini-variant="miniVariant"
       :clipped="clipped"
@@ -22,6 +23,14 @@
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title v-text="item.title"></v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile v-if="user" @click="onLogout">
+          <v-list-tile-action>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            Logout
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -73,7 +82,7 @@ export default {
         {
           icon: 'toc',
           title: 'Tickets',
-          action:'/'
+          action:'/tickets'
         },
         {
           icon: 'turned_in',
@@ -108,6 +117,9 @@ export default {
       this.$store.dispatch('message/modifyAlert', false, {root: true})
       this.$store.dispatch('message/modfyTypeAlert', '', {root: true})
       this.$store.dispatch('message/modifyMessageAlert', '', {root: true})
+    },
+    onLogout(){
+      this.$store.dispatch('user/logout')
     }
   },  
   computed:{
@@ -119,6 +131,9 @@ export default {
     },
     messageAlert(){
       return this.$store.getters['message/getMessage']
+    },
+    user(){
+      return this.$store.getters['user/getUserAuthenticated']
     } 
   }
 }
