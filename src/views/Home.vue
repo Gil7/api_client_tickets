@@ -61,6 +61,44 @@
           <v-icon>add</v-icon>
         </v-btn>
     </v-card>
+    <v-dialog
+        v-model="remove"    
+        width="300px"
+        >
+          <v-card
+            >
+              <v-card-title
+                class="headline blue white--text"
+              >
+                  Remove ticket
+              </v-card-title>
+            <v-card-text>
+                <p v-if="ticketToDelete">
+                    Do you really want to delete this ticket:
+                    {{ticketToDelete._id}}
+                </p>
+                
+            </v-card-text>
+            <v-card-actions>
+                <v-btn
+                    @click="cancelRemove"
+                    class="error">
+                    <v-icon
+                        >
+                        close
+                    </v-icon>
+                </v-btn>
+                <v-btn
+                    class="success"
+                    @click="onRemoveTicket"
+                    >
+                    <v-icon>
+                        check
+                    </v-icon>
+                </v-btn>
+            </v-card-actions>
+        </v-card>
+      </v-dialog>
   </v-container>
 </template>
 
@@ -68,6 +106,7 @@
 
 </style>
 <script>
+import Ticket from '../models/Ticket.js'
 export default {
   components: {
     
@@ -90,6 +129,8 @@ export default {
           { text: 'Assigned to', value: 'assigned' },
           {text: 'Actions', value: 'name', sortable: false}
         ],
+        remove: false,
+        ticketToDelete: new Ticket('','','','','','','')
         
       }
   },
@@ -99,13 +140,24 @@ export default {
   },
   methods: {
     editTicket(ticket){
-      console.log(ticket)
+      console.log("TICKER ID ",ticket)
+      this.$router.push({ name: 'editTicket', params: { id : ticket._id }})
     },
     removeTicket(ticket){
-      console.log(ticket)
+      this.ticketToDelete = ticket
+      this.remove = true
+    },
+    onRemoveTicket(){
+      this.$store.dispatch('ticket/removeTicket', this.ticketToDelete)
+      this.remove = false
+      this.ticketToDelete = new Ticket('','','','','','','') 
     },
     closeModal(value){
-      this.dialog = value
+      this.remove = value
+    },
+    cancelRemove(){
+      this.ticketToDelete = new Ticket('','','','','','','')
+      this.remove = false
     }
   },
   computed: {

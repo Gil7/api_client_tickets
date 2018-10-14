@@ -40,6 +40,7 @@
                 <v-card-actions>
                     <v-btn
                         class="blue white--text"
+                        @click="onSubmit"
                         :disabled="invalidLogin"
                     >
                     Sign in
@@ -61,7 +62,7 @@ export default {
     },
     methods: {
         onSubmit(){
-            
+            this.$store.dispatch('user/loginUser', { email: this.email, password: this.password })
         }
     },
     computed: {
