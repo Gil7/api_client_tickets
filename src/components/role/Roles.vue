@@ -3,7 +3,7 @@
     <v-card>
       <v-card-title>
         <v-icon>
-            user
+            assignment_ind
         </v-icon>
         Roles
         <v-spacer></v-spacer>
@@ -130,6 +130,12 @@ export default {
                 {
                     text: 'Name',
                     value: 'name'
+                },
+                {
+                    text:'Actions',
+                    name:'actions',
+                    sortable:false,
+                    
                 }
             ],
             search:'',
