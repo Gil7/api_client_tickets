@@ -1,4 +1,5 @@
 import axios from 'axios'
+import GENERAL from '../config/general'
 export default {
   namespaced: true,
   state: {
@@ -34,8 +35,7 @@ export default {
   },
   actions: {
     loadTickets({commit, getters}){
-      
-      axios.get(`${getters.url}/api/tickets`)
+      axios.get(`${GENERAL.API_URL}/tickets`)
       .then(response => {
         commit('setLoadedTickets', response.data.data)
       })
@@ -43,13 +43,18 @@ export default {
         console.log(err)
       })  
     },
-    createTicket({commit, getters}, payload){
-      axios.post(`${gettets.url}/api/tickets`, payload)
+    createTicket({dispatch, commit}, payload){
+      axios.post(`${GENERAL.API_URL}/tickets`, payload)
       .then(response => {
-        console.log(response)
+        commit('createTicket', response.data.data)
+        dispatch('message/modifyAlert', true, { root: true })
+        dispatch('message/modfyTypeAlert', 'success', { root: true })
+        dispatch('message/modifyMessageAlert', response.data.message, { root: true })
       })
       .catch(err => {
-
+        dispatch('message/modifyAlert', true, { root: true })
+        dispatch('message/modfyTypeAlert', 'success', { root: true })
+        dispatch('message/modifyMessageAlert', 'Error creating the ticket', { root: true })
       })
     }
   },
@@ -66,8 +71,5 @@ export default {
     loading(state){
       return state.loading
     },
-    url(state){
-      return state.url
-    }
   }
 }

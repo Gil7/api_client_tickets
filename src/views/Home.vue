@@ -48,26 +48,18 @@
           Your search for "{{ search }}" found no results.
         </v-alert>
       </v-data-table>
-      <v-dialog
-        v-model="dialog"
-        width="500"
-      >
-
-        <v-btn
+      <v-btn
           fab
           dark
           bottom
           right
           fixed
-          slot="activator"
+          router
+          to="/new-ticket"
           color="blue"
         >
           <v-icon>add</v-icon>
         </v-btn>
-        <newticket 
-          :statuses="statuses"
-        @cancel="closeModal"></newticket>
-      </v-dialog>
     </v-card>
   </v-container>
 </template>
@@ -76,10 +68,9 @@
 
 </style>
 <script>
-import ModalTicket from '../components/ticket/ModaTicket.vue'
 export default {
   components: {
-    newticket:ModalTicket
+    
   },
   data(){
     return {
