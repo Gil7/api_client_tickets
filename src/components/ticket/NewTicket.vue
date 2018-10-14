@@ -74,7 +74,7 @@
                 <v-btn
                     color="error"
                     router
-                    to="/"
+                    to="/tickets"
                 >
                     Cancel
                 </v-btn>

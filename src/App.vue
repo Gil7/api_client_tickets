@@ -1,5 +1,6 @@
 <template>
-  <v-app >
+  <v-app light>
+    
     <v-navigation-drawer
       v-if="user"
       persistent
@@ -10,6 +11,7 @@
       fixed
       app
     >
+      
       <v-list>
         <v-list-tile
           value="true"
@@ -35,7 +37,11 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    
+    <v-toolbar app class="blue">
+      <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-title class="white--text">Tickets</v-toolbar-title>
+      <v-spacer></v-spacer>
+    </v-toolbar>
     <v-content>
       <v-alert
         class="alert-message"
@@ -76,7 +82,6 @@ export default {
   data () {
     return {
       clipped: false,
-      drawer: true,
       fixed: false,
       items: [
         {
@@ -109,7 +114,8 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Tickets'
+      title: 'Tickets',
+      drawer: true
     }
   },
   methods: {
