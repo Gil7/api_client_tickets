@@ -17,8 +17,12 @@ export default {
         }
     },
     actions: {
-        loadStatuses({commit, getters}){
-            axios.get(`${GENERAL.API_URL}/statuses`)
+        loadStatuses({commit, getters, rootGetters}){
+            axios.get(`${GENERAL.API_URL}/statuses`, {
+                headers: {
+                    'authorization': rootGetters['user/getToken']
+                }
+            })
             .then(response => {
                 commit('setLoadedStatuses', response.data.data)
                 
@@ -29,8 +33,12 @@ export default {
                 dispatch('message/modifyMessageAlert', 'Error loading statuses', { root: true })
             })
         },
-        storeStatus({dispatch, commit, getters}, payload){
-            axios.post(`${GENERAL.API_URL}/statuses`, payload)
+        storeStatus({dispatch, commit, getters, rootGetters}, payload){
+            axios.post(`${GENERAL.API_URL}/statuses`, payload, {
+                headers: {
+                    'authorization': rootGetters['user/getToken']
+                }
+            })
             .then(response => {
                 commit('createStatus', response.data.data)
                 dispatch('message/modifyAlert', true, { root: true })
@@ -46,8 +54,12 @@ export default {
         updateStatus({commit}, payload){
 
         },
-        removeStatus({dispatch,commit}, payload){
-            axios.delete(`${GENERAL.API_URL}/statuses/${payload}`)
+        removeStatus({dispatch,commit, rootGetters}, payload){
+            axios.delete(`${GENERAL.API_URL}/statuses/${payload}`, {
+                headers: {
+                    'authorization': rootGetters['user/getToken']
+                }
+            })
             .then(response => {
                 commit('removeStatus', payload)
                 dispatch('message/modifyAlert', true, { root: true })

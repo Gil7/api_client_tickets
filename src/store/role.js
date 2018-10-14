@@ -22,8 +22,12 @@ export default {
         }
     },
     actions: { 
-        loadRoles({commit}){
-            axios.get(`${GENERAL.API_URL}/roles`)
+        loadRoles({commit, rootGetters}){
+            axios.get(`${GENERAL.API_URL}/roles`, {
+                headers: {
+                    'authorization': rootGetters['user/getToken']
+                }
+            })
             .then(response => {
                 commit('setLoadedRoles', response.data.data)
             })
@@ -32,7 +36,11 @@ export default {
             })
         },
         storeRole({dispatch, commit, getters, rootGetters}, payload){
-            axios.post(`${GENERAL.API_URL}/roles`, payload)
+            axios.post(`${GENERAL.API_URL}/roles`, payload, {
+                headers: {
+                    'authorization': rootGetters['user/getToken']
+                }
+            })
             .then(response => {
                 commit('addRole', response.data.data)
                 dispatch('message/modifyAlert', true, {root: true})
@@ -44,8 +52,12 @@ export default {
                 console.log(err)
             })
         },
-        updateRole({dispatch,commit, getters}, payload){
-            axios.put(`${GENERAL.API_URL}/roles/${payload._id}`, payload)
+        updateRole({dispatch,commit, getters, rootGetters}, payload){
+            axios.put(`${GENERAL.API_URL}/roles/${payload._id}`, payload, {
+                headers: {
+                    'authorization': rootGetters['user/getToken']
+                }
+            })
             .then(response => {
                 commit('updateRole', payload)
                 dispatch('message/modifyAlert', true, { root: true })
@@ -57,7 +69,11 @@ export default {
             })
         },
         removeRole({dispatch,commit, getters, rootGetters}, payload){
-            axios.delete(`${GENERAL.API_URL}/roles/${payload}`)
+            axios.delete(`${GENERAL.API_URL}/roles/${payload}`, {
+                headers: {
+                    'authorization': rootGetters['user/getToken']
+                }
+            })
             .then(response => {
                 commit('removeRole', payload)
                 dispatch('message/modifyAlert', true, { root: true })

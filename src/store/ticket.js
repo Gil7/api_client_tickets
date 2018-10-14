@@ -4,11 +4,6 @@ export default {
   namespaced: true,
   state: {
     tickets:[],
-    user: null,
-    token: null,
-    loading: false,
-    error: null,
-    url: 'http://localhost:3000'
   },
   mutations: {
     setLoadedTickets(state, payload){
@@ -17,25 +12,25 @@ export default {
     createTicket(state, payload){
       state.tickets.push(payload)
     },
-    setUser(state, payload){
-      state.user = payload
+    updateTicket(state, payload){
+      state.tickets = state.tickets.map((ticket, index) => {
+        if(ticket._id == payload._id){
+          state.tickets[index] = payload
+        }
+      })
     },
-    setToken(state, payload){
-      state.token = payload
-    },
-    setLoading(state, payload){
-      state.loading = payload
-    },
-    setError(state, payload){
-      state.error = payload
-    },
-    clearError(state, payload){
-      state.error = null
+    removeTicket(state, payload){
+      state.tickets = state.tickets.filter( ticket => ticket._id != payload._id )
     }
+    
   },
   actions: {
-    loadTickets({commit, getters}){
-      axios.get(`${GENERAL.API_URL}/tickets`)
+    loadTickets({commit, getters, rootGetters}){
+      axios.get(`${GENERAL.API_URL}/tickets`, {
+        headers: {
+          'authorization': rootGetters['user/getToken']
+        }
+      })
       .then(response => {
         commit('setLoadedTickets', response.data.data)
       })
@@ -43,8 +38,12 @@ export default {
         console.log(err)
       })  
     },
-    createTicket({dispatch, commit}, payload){
-      axios.post(`${GENERAL.API_URL}/tickets`, payload)
+    createTicket({dispatch, commit, rootGetters}, payload){
+      axios.post(`${GENERAL.API_URL}/tickets`, payload, {
+        headers: {
+          'authorization': rootGetters['user/getToken']
+        }
+      })
       .then(response => {
         commit('createTicket', response.data.data)
         dispatch('message/modifyAlert', true, { root: true })
@@ -53,8 +52,44 @@ export default {
       })
       .catch(err => {
         dispatch('message/modifyAlert', true, { root: true })
-        dispatch('message/modfyTypeAlert', 'success', { root: true })
+        dispatch('message/modfyTypeAlert', 'error', { root: true })
         dispatch('message/modifyMessageAlert', 'Error creating the ticket', { root: true })
+      })
+    },
+    updateTicket({ dispatch,commit, getters, rootGetters }, payload) {
+      axios.put(`${GENERAL.API_URL}/tickets/${payload._id}`, payload, {
+        headers: {
+          'authorization': rootGetters['user/getToken']
+        }
+      })
+      .then(response => {
+        commit('updateTicket', payload)
+        dispatch('message/modifyAlert', true, { root: true })
+        dispatch('message/modfyTypeAlert', 'success', { root: true })
+        dispatch('message/modifyMessageAlert', response.data.message, { root: true })
+      })
+      .catch(err => {
+        dispatch('message/modifyAlert', true, { root: true })
+        dispatch('message/modfyTypeAlert', 'error', { root: true })
+        dispatch('message/modifyMessageAlert', 'Error updating the ticket', { root: true })
+      })
+    },
+    removeTicket({dispatch, commit, getters, rootGetters}, payload){
+      axios.delete(`${GENERAL.API_URL}/tickets/${payload._id}`,{
+        headers: {
+          'authorization': rootGetters['user/getToken']
+        }
+      })
+      .then(response => {
+        commit('removeTicket', payload)
+        dispatch('message/modifyAlert', true, { root: true })
+        dispatch('message/modfyTypeAlert', 'success', { root: true })
+        dispatch('message/modifyMessageAlert', response.data.message, { root: true })
+      })
+      .catch(err => {
+        dispatch('message/modifyAlert', true, { root: true })
+        dispatch('message/modfyTypeAlert', 'error', { root: true })
+        dispatch('message/modifyMessageAlert', 'Error removing the ticket', { root: true })
       })
     }
   },
@@ -62,14 +97,8 @@ export default {
     loadedTickets(state){
       return state.tickets
     },
-    user(state){
-      return state.user
-    },
-    token(state){
-      return state.token
-    },
-    loading(state){
-      return state.loading
-    },
+    getTicket(state, ticket){
+      return state.tickets.find( item => item._id == ticket._id)
+    }
   }
 }
