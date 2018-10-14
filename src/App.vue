@@ -37,7 +37,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar app class="blue">
+    <v-toolbar app class="blue" v-if="user">
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title class="white--text">Tickets</v-toolbar-title>
       <v-spacer></v-spacer>
