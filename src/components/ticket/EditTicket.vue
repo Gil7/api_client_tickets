@@ -8,7 +8,7 @@
                 <v-icon>
                     list
                 </v-icon>
-                Create new Ticket
+                Update Ticket: {{ticket._id}}
             </v-card-title>
             <v-card-text>
                 <v-form>
@@ -81,10 +81,10 @@
                 
                 <v-btn
                 color="success"
-                @click="addTicket"
+                @click="updateTicket"
                 >
                 
-                Add
+                Update
                 </v-btn>
             </v-card-actions>
         </v-card>
@@ -93,9 +93,10 @@
 <script>
 import Ticket from '../../models/Ticket.js'
 export default {
+    props: ['id'],
     data(){
         return {
-            ticket: new Ticket('','','','','','','')
+            
         }
     },
     created(){
@@ -103,8 +104,8 @@ export default {
         this.$store.dispatch('user/loadUsers')
     },
     methods: {
-        addTicket(){
-            this.$store.dispatch('ticket/createTicket', this.ticket)
+        updateTicket(){
+            this.$store.dispatch('ticket/updateTicket', this.ticket)
             this.$router.push('/tickets')
         }
     },
@@ -114,6 +115,9 @@ export default {
         },
         users(){
             return this.$store.getters['user/getUsers']
+        },
+        ticket(){
+            return this.$store.getters['ticket/loadedTickets'].find((item) => item._id == this.id)
         }
     }
 }
