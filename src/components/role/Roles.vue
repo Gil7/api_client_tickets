@@ -44,6 +44,17 @@
         </v-alert>
       </v-data-table>
       <v-dialog
+        v-model="editingRole"
+        width="500"
+        >
+          <edit-role
+            :role="roleEditing"
+            @cancelEditing="cancelEditing"
+            >
+            </edit-role>
+      </v-dialog>
+      
+      <v-dialog
         v-model="remove"    
         width="300px"
         >
@@ -104,15 +115,17 @@
   </v-container>
 </template>
 <script>
-import ModalNewRole from './ModalNewRole'
+import ModalNewRole from './ModalNewRole';
+import EditRole from './EditRole';
 import Role from '../../models/Role.js'
 export default {
     components:{
         'new-role': ModalNewRole,
+        'edit-role' : EditRole
     },
     data(){
         return {
-            newRole : new Role('',''),
+            
             headers: [
                 {
                     text: 'Name',
@@ -122,7 +135,9 @@ export default {
             search:'',
             dialog: false,
             remove: false,
-            roleToDelete: null
+            roleToDelete: null,
+            roleEditing: new Role('',''),
+            editingRole: false
         }
     },
     created(){
@@ -133,7 +148,12 @@ export default {
             this.dialog = false
         },
         editRole(role){
-            
+            this.roleEditing= role
+            this.editingRole = true
+        },
+        cancelEditing(){
+            this.roleEditing = new Role('','')
+            this.editingRole = false
         },
         removeRole(role){
             this.roleToDelete = role

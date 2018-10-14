@@ -12,8 +12,9 @@ export default {
         addRole(state, payload){
             state.roles.push(payload)
         },
-        updateRole(state, payload, index){
-            state.roles[index] = payload
+        updateRole(state, payload){
+            
+            
         },
         removeRole(state, payload){
             state.roles = state.roles.filter((role) => role._id != payload)
@@ -44,10 +45,13 @@ export default {
                 console.log(err)
             })
         },
-        updateRole({commit}, payload, index){
-            axios.put(`${GENERAL.API_URL}/roles/${payload.id}`, payload)
+        updateRole({dispatch,commit, getters}, payload){
+            axios.put(`${GENERAL.API_URL}/roles/${payload._id}`, payload)
             .then(response => {
-                commit('updateRole', response.data.data, index)
+                commit('updateRole', payload)
+                dispatch('message/modifyAlert', true, { root: true })
+                dispatch('message/modfyTypeAlert', 'success', { root: true })
+                dispatch('message/modifyMessageAlert', response.data.message, { root: true })
             })
             .catch(err => {
                 console.log(err)
