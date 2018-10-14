@@ -2,6 +2,9 @@
   <v-container fluid>
     <v-card>
       <v-card-title>
+        <v-icon>
+          bookmarks
+        </v-icon>
         Tickets
         <v-spacer></v-spacer>
         <v-text-field

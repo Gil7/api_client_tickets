@@ -8,13 +8,14 @@ import status from './store/status'
 import ticket from './store/ticket'
 import roles from './store/role'
 import message from './store/message'
-
+import user from './store/user'
 Vue.use(Vuex)
 export const store = new Vuex.Store({
   modules: {
     status,
     ticket,
     roles,
+    user,
     message
   }
 })

@@ -26,7 +26,6 @@ export default {
             axios.get(`${GENERAL.API_URL}/roles`)
             .then(response => {
                 commit('setLoadedRoles', response.data.data)
-                console.log(response)
             })
             .catch(err => {
                 console.log(err)

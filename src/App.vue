@@ -47,7 +47,7 @@
     </v-content>
  
     <v-footer :fixed="fixed" app>
-      <span>&copy; Tickets - VUE</span>
+      <span>&copy; Tickets - VUE - Gilberto Méndez</span>
     </v-footer>
   </v-app>
 </template>
@@ -90,6 +90,11 @@ export default {
           title: 'Roles',
           action:'/roles'
         },
+        {
+          icon:'info',
+          title: 'About',
+          action:'/about'
+        }
         
       ],
       miniVariant: false,
