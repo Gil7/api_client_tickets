@@ -165,6 +165,10 @@ export default {
                     value:'email'
                 },
                 {
+                    text:'Active',
+                    value:'active'
+                },
+                {
                     text:'Role',
                     value:'role.role'
                 },
