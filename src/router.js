@@ -23,6 +23,11 @@ export default new Router({
       component: Login
     },
     {
+      path: '/',
+      beforeEnter: loggedin,
+      component: Login
+    },
+    {
       path: '/tickets',
       beforeEnter: auth,
       component: Home
