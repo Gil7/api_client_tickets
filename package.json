@@ -1,14 +1,17 @@
 {
-  "name": "tickets",
+  "name": "vue-client-app-tickets",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "dev": "node build/dev-server.js",
+    "start": "node server.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0-rc.1",
     "axios": "^0.18.0",
+    "express": "^4.16.4",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vuetify": "^1.2.0",
